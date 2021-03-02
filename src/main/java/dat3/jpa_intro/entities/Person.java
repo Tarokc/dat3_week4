@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -34,7 +35,10 @@ public class Person implements Serializable {
     private Address address;
     
     @OneToMany(mappedBy = "person", cascade = CascadeType.PERSIST)
-    private List<Fee> fees;
+    List<Fee> fees;
+    
+    @ManyToMany(mappedBy = "persons", cascade = CascadeType.PERSIST)
+    List<SwimStyle> styles;
 
     public Person() {
     }
@@ -43,6 +47,7 @@ public class Person implements Serializable {
         this.name = name;
         this.year = year;
         this.fees = new ArrayList<>();
+        this.styles = new ArrayList<>();
     }
 
     public Long getP_id() {
@@ -91,5 +96,17 @@ public class Person implements Serializable {
         return fees;
     }
     
+    public void addSwimStyle(SwimStyle style) {
+        if (style != null) {
+            this.styles.add(style);
+            style.getPersons().add(this);
+        }
+    }
     
+    public void removeSwimStyle(SwimStyle style) {
+        if (style != null) {
+            styles.remove(style);
+            style.getPersons().remove(this);
+        }
+    }
 }
