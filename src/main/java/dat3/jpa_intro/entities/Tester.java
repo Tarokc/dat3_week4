@@ -21,12 +21,24 @@ public class Tester {
         Person p1 = new Person("Morten", 1963);
         Person p2 = new Person("Peter", 1959);
         
+        Address a1 = new Address("Store Torv 1", 2323, "Nr. Snede");
+        Address a2 = new Address("Langgade 34", 1212, "Valby");
+        
+        p1.setAddress(a1);
+        p2.setAddress(a2);
+        
         em.getTransaction().begin();
-        em.persist(p1);
-        em.persist(p2);
+            em.persist(p1);
+            em.persist(p2);
+            //em.persist(a1);
+            //em.persist(a2);
         em.getTransaction().commit();
         
         System.out.println("p1: " + p1.getP_id());
         System.out.println("p2: " + p2.getP_id());
+        
+        System.out.println("Mortens gade: " + p1.getAddress().getStreet());
+        
+        System.out.println(a1.getPerson().getName());
     }
 }
